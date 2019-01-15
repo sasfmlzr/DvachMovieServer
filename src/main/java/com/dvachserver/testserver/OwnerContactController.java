@@ -1,47 +1,39 @@
 package com.dvachserver.testserver;
 
 
-import com.dvachserver.testserver.Entity.ContactsRoot;
+import com.dvachserver.testserver.Entity.OwnerContact;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class ContactsRootController {
+public class OwnerContactController {
 
     @Autowired
-    private ContactsRootValueRepository repository;
+    private OwnerContactValueRepository repository;
 
     @GetMapping("/contacts/get")
-    public List<ContactsRoot> all() {
-        List<ContactsRoot> contacts = repository.findAll();
-        return contacts;
-    }
-
-    @GetMapping("/")
-    public String fff() {
-        String str = "GGGGG";
-        return str;
+    public List<OwnerContact> all() {
+        return repository.findAll();
     }
 
     @GetMapping("/contacts/get/{id}")
-    public ContactsRoot one(@PathVariable String id) {
+    public OwnerContact one(@PathVariable String id) {
 
-        ContactsRoot contacts = repository.findById(id)
+        OwnerContact contacts = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Could not find " + id));
 
         return contacts;
     }
 
     @PostMapping("/contacts/new")
-    public ContactsRoot newContacts(@RequestBody ContactsRoot newContacts) {
+    public OwnerContact newContacts(@RequestBody OwnerContact newContacts) {
         return repository.save(newContacts);
     }
 
     @PutMapping("/contacts/put/{id}")
-    public ContactsRoot replaceEmployee(@RequestBody ContactsRoot newContacts, @PathVariable String id) {
+    public OwnerContact replaceEmployee(@RequestBody OwnerContact newContacts, @PathVariable String id) {
 
         return repository.findById(id)
                 .map(contacts -> {

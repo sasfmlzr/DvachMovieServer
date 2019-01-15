@@ -5,11 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 @Entity
-public class ContactsRoot implements Serializable {
+public class OwnerContact implements Serializable {
 
     @Id
     private String id;
@@ -17,10 +15,10 @@ public class ContactsRoot implements Serializable {
     @Column(name="contacts")
     private ArrayList<Contacts> contacts;
 
-    public ContactsRoot() {
+    public OwnerContact() {
     }
 
-    public ContactsRoot(String id, ArrayList<Contacts> contacts) {
+    public OwnerContact(String id, ArrayList<Contacts> contacts) {
         super();
         this.id = id;
         this.contacts = contacts;
