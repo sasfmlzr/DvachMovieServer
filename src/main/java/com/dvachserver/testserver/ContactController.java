@@ -10,40 +10,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class OwnerContactController {
+public class ContactController {
 
     @Autowired
-    private OwnerContactValueRepository repository;
+    private ContactsValueRepository repository;
 
-    @GetMapping("/contacts/get")
-    public List<OwnerContact> all() {
+    @GetMapping("/cont/get")
+    public List<Contacts> all() {
         return repository.findAll();
     }
 
-    @GetMapping("/contacts/get/{id}")
-    public OwnerContact one(@PathVariable String id) {
+    @GetMapping("/cont/get/{id}")
+    public Contacts one(@PathVariable String id) {
 
-        OwnerContact contacts = repository.findById(id)
+        Contacts contacts = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Could not find " + id));
 
         return contacts;
     }
 
-    @PostMapping("/contacts/new")
-    public OwnerContact newContacts(@RequestBody OwnerContact newContacts) {
+    @PostMapping("/cont/new")
+    public Contacts newContacts(@RequestBody Contacts newContacts) {
         return repository.save(newContacts);
     }
 
-    @PutMapping("/contacts/put/{id}")
-    public OwnerContact replaceEmployee(@RequestBody OwnerContact newContacts, @PathVariable String id) {
+    @PutMapping("/cont/put/{id}")
+    public Contacts replaceEmployee(@RequestBody Contacts newContacts, @PathVariable String id) {
 
         return repository.findById(id)
                 .map(contacts -> {
-                    contacts.setContacts((ArrayList<Contacts>) newContacts.getContacts());
+                    contacts.setName(newContacts.getName());
+                    contacts.setPhone(newContacts.getPhone());
+                    contacts.setOwnerContact(newContacts.getOwnerContact());
                     return repository.save(contacts);
                 })
                 .orElseGet(() -> {
-                    newContacts.setId(id);
                     return repository.save(newContacts);
                 });
     }

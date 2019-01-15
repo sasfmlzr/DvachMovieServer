@@ -1,17 +1,22 @@
 package com.dvachserver.testserver.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 public class Contacts implements Serializable {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "id", unique = true, nullable = false)
+    private long id;
+    @Column(name="name")
     private String name;
     @Column(name="phone")
     private String phone;
+
+    @ManyToOne
+    private OwnerContact ownerContact;
 
     public Contacts() {
     }
@@ -36,5 +41,13 @@ public class Contacts implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public OwnerContact getOwnerContact() {
+        return ownerContact;
+    }
+
+    public void setOwnerContact(OwnerContact ownerContact) {
+        this.ownerContact = ownerContact;
     }
 }

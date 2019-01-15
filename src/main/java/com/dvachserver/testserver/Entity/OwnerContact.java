@@ -1,38 +1,41 @@
 package com.dvachserver.testserver.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class OwnerContact implements Serializable {
 
     @Id
-    private String id;
+    @Column(name = "id", unique = true, nullable = false)
+    private String ownerId;
 
-    @Column(name="contacts")
-    private ArrayList<Contacts> contacts;
+  //  @Column(name="contacts")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="OWNER_ID")
+    private Collection<Contacts> contacts;
 
     public OwnerContact() {
     }
 
-    public OwnerContact(String id, ArrayList<Contacts> contacts) {
+    public OwnerContact(String ownerId, ArrayList<Contacts> contacts) {
         super();
-        this.id = id;
+        this.ownerId = ownerId;
         this.contacts = contacts;
     }
 
     public String getId() {
-        return id;
+        return ownerId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.ownerId = id;
     }
 
-    public ArrayList<Contacts> getContacts() {
+    public Collection<Contacts> getContacts() {
         return contacts;
     }
 
