@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class OwnerContactController {
@@ -22,11 +23,8 @@ public class OwnerContactController {
 
     @GetMapping("/contacts/get/{id}")
     public OwnerContact one(@PathVariable String id) {
-
-        OwnerContact contacts = repository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Could not find " + id));
-
-        return contacts;
     }
 
     @PostMapping("/contacts/new")
@@ -38,13 +36,19 @@ public class OwnerContactController {
     public OwnerContact replaceEmployee(@RequestBody OwnerContact newContacts, @PathVariable String id) {
 
         return repository.findById(id)
-                .map(contacts -> {
-                    contacts.setContacts((ArrayList<Contacts>) newContacts.getContacts());
-                    return repository.save(contacts);
-                })
+                .map(contacts -> repository.save(setOwnerForContacts(contacts, newContacts)))
                 .orElseGet(() -> {
+                    //wtf
                     newContacts.setId(id);
                     return repository.save(newContacts);
                 });
+    }
+
+    private OwnerContact setOwnerForContacts(OwnerContact oldContacts, OwnerContact newContacts){
+        for (Contacts cont: newContacts.getContacts()) {
+            cont.setOwnerContact(newContacts);
+        }
+        oldContacts.setContacts((ArrayList<Contacts>) newContacts.getContacts());
+        return oldContacts;
     }
 }

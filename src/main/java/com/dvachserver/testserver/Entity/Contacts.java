@@ -1,5 +1,7 @@
 package com.dvachserver.testserver.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -7,15 +9,16 @@ import java.io.Serializable;
 public class Contacts implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private long id;
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
-    @Column(name="phone")
+    @Column(name = "phone")
     private String phone;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private OwnerContact ownerContact;
 
     public Contacts() {

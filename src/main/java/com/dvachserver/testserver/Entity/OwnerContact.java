@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class OwnerContact implements Serializable {
@@ -13,9 +12,8 @@ public class OwnerContact implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private String ownerId;
 
-  //  @Column(name="contacts")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="OWNER_ID")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "OWNER_ID")
     private Collection<Contacts> contacts;
 
     public OwnerContact() {
