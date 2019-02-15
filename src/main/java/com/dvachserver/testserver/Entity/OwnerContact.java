@@ -1,5 +1,8 @@
 package com.dvachserver.testserver.Entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,13 +19,19 @@ public class OwnerContact implements Serializable {
     @JoinColumn(name = "OWNER_ID")
     private Collection<Contacts> contacts;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JoinColumn(name = "OWNER_ID")
+    private Collection<Location> locations;
+
     public OwnerContact() {
     }
 
-    public OwnerContact(String ownerId, ArrayList<Contacts> contacts) {
+    public OwnerContact(String ownerId, ArrayList<Contacts> contacts, ArrayList<Location> locations) {
         super();
         this.ownerId = ownerId;
         this.contacts = contacts;
+        this.locations = locations;
     }
 
     public String getId() {
@@ -39,5 +48,17 @@ public class OwnerContact implements Serializable {
 
     public void setContacts(ArrayList<Contacts> contacts) {
         this.contacts = contacts;
+    }
+
+    public Collection<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Collection<Location> locations) {
+        this.locations = locations;
+    }
+
+    public void addLocation(Location location) {
+        this.locations.add(location);
     }
 }
