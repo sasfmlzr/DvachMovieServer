@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -49,6 +50,10 @@ public class OwnerContactController {
             cont.setOwnerContact(newContacts);
         }
         oldContacts.setContacts((ArrayList<Contacts>) newContacts.getContacts());
+        HashSet<Location> locations = new HashSet<>();
+        locations.addAll(oldContacts.getLocations());
+        locations.addAll(newContacts.getLocations());
+        oldContacts.setLocations(locations);
         return oldContacts;
     }
 
