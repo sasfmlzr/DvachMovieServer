@@ -1,7 +1,9 @@
 package com.dvachserver.testserver.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,6 +22,8 @@ public class Location implements Serializable {
     private Double longitude;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     @Column(name = "date")
     private LocalDateTime date;
 
@@ -29,7 +33,6 @@ public class Location implements Serializable {
 
     public Location() {
         this.date = LocalDateTime.now();
-        //this.date = new Date();
     }
 
     public Double getLatitude() {
