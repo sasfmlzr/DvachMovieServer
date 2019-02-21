@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class Location implements Serializable {
@@ -21,14 +21,15 @@ public class Location implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "date")
-    private Date date;
+    private LocalDateTime date;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private OwnerContact ownerContact;
 
     public Location() {
-        this.date = new Date();
+        this.date = LocalDateTime.now();
+        //this.date = new Date();
     }
 
     public Double getLatitude() {
@@ -47,11 +48,11 @@ public class Location implements Serializable {
         this.longitude = longitude;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
