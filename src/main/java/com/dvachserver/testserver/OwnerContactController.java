@@ -51,8 +51,16 @@ public class OwnerContactController {
         }
         oldContacts.setContacts((ArrayList<Contacts>) newContacts.getContacts());
         HashSet<Location> locations = new HashSet<>();
-        locations.addAll(oldContacts.getLocations());
-        locations.addAll(newContacts.getLocations());
+
+        Collection<Location> oldContactsLocation = oldContacts.getLocations();
+        if (oldContactsLocation != null) {
+            locations.addAll(oldContactsLocation);
+        }
+
+        Collection<Location> newContactsLocation = newContacts.getLocations();
+        if (newContactsLocation != null) {
+            locations.addAll(newContactsLocation);
+        }
         oldContacts.setLocations(locations);
         return oldContacts;
     }
