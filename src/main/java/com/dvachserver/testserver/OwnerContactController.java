@@ -6,10 +6,7 @@ import com.dvachserver.testserver.Entity.OwnerContact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class OwnerContactController {
@@ -81,5 +78,19 @@ public class OwnerContactController {
                 })
                 .orElseThrow(() ->
                         new RuntimeException("Could not find " + id));
+    }
+
+    @GetMapping("/contacts/checkid/{id}")
+    private String checkIdContactOwner(@PathVariable String id) {
+        OwnerContact ownerContact = null;
+        Optional<OwnerContact> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            ownerContact = optional.get();
+        }
+        if (ownerContact == null) {
+            throw new RuntimeException("Could not find " + id);
+        } else {
+            return "It's unique id";
+        }
     }
 }
