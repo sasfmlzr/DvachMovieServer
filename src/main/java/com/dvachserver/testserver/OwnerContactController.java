@@ -3,7 +3,9 @@ package com.dvachserver.testserver;
 import com.dvachserver.testserver.Entity.Contacts;
 import com.dvachserver.testserver.Entity.Location;
 import com.dvachserver.testserver.Entity.OwnerContact;
+import com.dvachserver.testserver.Entity.StringResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -80,8 +82,8 @@ public class OwnerContactController {
                         new RuntimeException("Could not find " + id));
     }
 
-    @GetMapping("/contacts/checkid/{id}")
-    private String checkIdContactOwner(@PathVariable String id) {
+    @GetMapping(value = "/contacts/checkid/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    private StringResponse checkIdContactOwner(@PathVariable String id) {
         OwnerContact ownerContact = null;
         Optional<OwnerContact> optional = repository.findById(id);
         if (optional.isPresent()) {
@@ -90,7 +92,7 @@ public class OwnerContactController {
         if (ownerContact == null) {
             throw new RuntimeException("Could not find " + id);
         } else {
-            return "It's unique id";
+            return new StringResponse("It's unique id");
         }
     }
 }
