@@ -5,7 +5,6 @@ import com.dvachserver.testserver.Entity.Location;
 import com.dvachserver.testserver.Entity.OwnerContact;
 import com.dvachserver.testserver.Entity.StringResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -82,7 +81,7 @@ public class OwnerContactController {
                         new RuntimeException("Could not find " + id));
     }
 
-    @GetMapping(value = "/contacts/checkid/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/contacts/checkid/{id}")
     private StringResponse checkIdContactOwner(@PathVariable String id) {
         OwnerContact ownerContact = null;
         Optional<OwnerContact> optional = repository.findById(id);
@@ -90,9 +89,9 @@ public class OwnerContactController {
             ownerContact = optional.get();
         }
         if (ownerContact == null) {
-            throw new RuntimeException("Could not find " + id);
-        } else {
             return new StringResponse("It's unique id");
+        } else {
+            throw new RuntimeException("This login is already in use");
         }
     }
 }
